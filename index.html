@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <title>Stock/Produit</title>
+        <style>
+          /* input[type="button"]*/
+          .ajoute {
+                
+                border-radius: 5px;
+                border-style: solid;
+                border-width: 1px;
+                box-shadow: 1px 1px 3px #333333;
+                text-shadow: 1px 1px 1px #000000;
+                font-weight: bold;
+                padding: 4px;
+                width: 160px;
+                background-color: chocolate;
+                font-size: 22px;
+                margin-left: 85px;
+                display: inline-block;
+                
+            }
+            #annuler{
+                background-color: darkcyan;
+                border-radius: 5px;
+                text-shadow: 1px 1px 1px #000000;
+                font-weight: bold;
+                padding: 8px;
+                width: 130px;
+                font-size: 18px;
+                border-width: 1px;
+                box-shadow: 1px 1px 3px #333333;
+                border-style: solid;}
+            #remove{
+                
+                border-radius: 5px;
+                border-width: 1px;
+                font-weight: bold;
+                background-color:bisque;
+                
+            }
+            .edit
+            {
+                display: none;
+            }
+            #tb{
+                color:brown;
+            }
+            #rt{font-size: 25px}
+
+
+        </style>
+       <!-- border-color: #FFFFFF #327CB5 #327CB5 #FFFFFF;
+    text-shadow: 1px 1px 1px #000000;-->
+    </head>
+<body style="font-size: 20px">
+<br/>
+<center>
+<table border="1" cellpadding="27"> <tr><td>
+<table id="rt" cellpadding="7" align="center">
+<tr>
+    <td>
+    <label>Id :</label></td>
+    <td> <input type="text" placeholder=" id hier" id="id" disabled/>
+    </td>
+</tr>
+<tr>
+    <td>
+    <label>Destination :</label> </td><td><input type="text" placeholder=" destination hier" id="des"/>
+    </td>
+</tr>
+<tr>
+    <td>
+    <label>Price :</label> </td><td><input type="text" placeholder=" price hier" id="pr"/>
+    </td>
+</tr>
+<tr>
+    <td>
+    <label>Quantite :</label> </td><td><input type="number" id="qua"/>
+    </td>
+</tr>
+<tr>
+    <td height="10px"></td>
+</tr>
+<tr>
+    <td colspan="2">
+    <input type="button" id="ajoute" class="ajoute" value="Add" onclick="ajoute()"/> 
+    <input type="button" id="edit" class="edit" value="Edit" onclick="edit()"/> 
+    <input type="button" id="annuler" value="Annuler" onclick="annuler()"/>    
+    </td>
+</tr>
+</table><br/>
+<table border="1" cellspacing="0" cellpadding="12">
+    <thead>  
+        <tr>  
+            <th>Id</th>
+            <th>destination</th>
+            <th>Price</th>
+            <th>Quantite</th>
+            <th>Choix</th>
+        </tr>
+    </thead> 
+    <tbody id="tb" align="center">
+        
+    </tbody>
+</table>
+<script>
+var tb = document.getElementById("tb"),
+ id =  document.getElementById("id"),
+ des = document.getElementById("des"),
+ prix = document.getElementById("pr"),
+ qte = document.getElementById("qua"),
+ ad = document.getElementById("ajoute"),
+ ed = document.getElementById("edit"),
+ tr = "",
+ index = 1;
+//method 1:
+function add()
+{
+    var table = document.getElementById("tb");
+    var row = table.insertRow();
+    var cell = row.insertCell();
+    cell.innerHTML = document.getElementById("id").value;
+    cell = row.insertCell();
+    cell.innerHTML = document.getElementById("des").value;
+    cell = row.insertCell();
+    cell.innerHTML = document.getElementById("pr").value;
+    cell = row.insertCell();
+    cell.innerHTML = document.getElementById("qua").value;
+    effacer();
+    
+}
+//method 2 ecmascript:
+
+function ajoute()
+{
+    if( des.value == "" || prix.value == "" || qte.value == "" || qte.value == 0)
+    { alert("Les champts est vide!!"); }
+    else {
+    tr+=`<tr  id="ee${index}">
+        <td>${index}</td>
+         <td>${des.value}</td>
+         <td>${prix.value}</td>
+         <td>${qte.value}</td> 
+         <td><input type="button" id="remove" value="Delete" onclick="remove_line(this)"/>
+            <input type="button" id="remove" value="Recupere" onclick="recuperer(this)"/></td> 
+         </tr>`;
+         index++;
+    tb.innerHTML = tr;
+    effacer();
+  }
+
+}
+//method 3:
+var tn = document.getElementById("tb"),
+ i = document.getElementById("id"),
+ d = document.getElementById("des"),
+ p = document.getElementById("pr"),
+ q = document.getElementById("qua");
+function to_add_cell()
+{
+    
+    tr =`<tr id="ee${index}">
+        <td>${i.value}</td>
+         <td>${d.value}</td>
+         <td>${p.value}</td>
+         <td>${q.value}</td> 
+         <td><input type="button" id="remove" value="Delete" onclick="remove_line(this)"/></td> 
+         <td><input type="button" id="remove" value="Recupere" onclick="recupere(this)"/></td> 
+         </tr>`;
+    tn.insertAdjacentHTML("afterend",tr);
+    effacer();
+
+}
+function recuperer(line){
+        var tr = line.parentNode.parentNode,
+        td = tr.querySelectorAll("td");
+
+        id.value = td[0].textContent;
+        des.value = td[1].textContent;
+        prix.value = td[2].textContent;
+        qte.value = td[3].textContent;
+        ad.classList = "edit";
+        ed.classList = "ajoute";
+
+        //desp=document.getElementById("ajoute")
+        //desp.value = "Modify";
+        //desp.style.display = "none"
+ }
+ function remove_line(line)
+{
+    line.parentNode.parentNode.remove();
+    ad.classList = "ajoute";
+    ed.classList = "edit";
+}
+ function edit(){
+    var u  = document.getElementById("ee"+id.value),
+        qs = u.children;//qs = tr.querySelectorAll("td");
+
+
+    qs[0].textContent = id.value;
+    qs[1].textContent = des.value;
+    qs[2].textContent = prix.value;
+    qs[3].textContent = qte.value;
+    annuler();
+ }
+function effacer()
+{
+    id.value = des.value = prix.value = qte.value ="";
+}
+function annuler()
+{
+   effacer();
+   ad.classList = "ajoute";
+   ed.classList = "edit";
+}
+    </script>
+ </td></tr>
+</table>
+</center>
+</body>
+</html>
