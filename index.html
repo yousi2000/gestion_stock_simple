@@ -79,7 +79,7 @@
 </tr>
 <tr>
     <td>
-    <label>Quantite :</label> </td><td><input type="number" id="qua"/>
+    <label>Quantite :</label> </td><td><input type="number" id="qua"min="1"/>
     </td>
 </tr>
 <tr>
@@ -133,6 +133,9 @@ function add()
     effacer();
     
 }
+
+
+
 //method 2 ecmascript:
 
 function ajoute()
@@ -140,7 +143,7 @@ function ajoute()
     if( des.value == "" || prix.value == "" || qte.value == "" || qte.value == 0)
     { alert("Les champts est vide!!"); }
     else {
-    tr+=`<tr  id="ee${index}">
+    var tr =`<tr  id="ee${index}">
         <td>${index}</td>
          <td>${des.value}</td>
          <td>${prix.value}</td>
@@ -149,7 +152,7 @@ function ajoute()
             <input type="button" id="remove" value="Recupere" onclick="recuperer(this)"/></td> 
          </tr>`;
          index++;
-    tb.innerHTML = tr;
+	tb.insertAdjacentHTML("beforeend", tr);
     effacer();
   }
 
